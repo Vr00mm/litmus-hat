@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "litmus-chapeau.fullname" . }}-force-https
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- index .Values "litmus" "customLabels" | toYaml | nindent 4 }}
+  labels:
+    {{- index .Values "litmus" "customAnnotations" | toYaml | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true

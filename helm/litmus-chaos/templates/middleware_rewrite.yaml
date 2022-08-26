@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ include "litmus-chapeau.fullname" . }}-rewrite-backend
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.global }}
+  annotations:
+    {{- toYaml .annotations | nindent 4 }}
+  labels:
+    {{- toYaml .labels | nindent 4 }}
+  {{- end }}
+spec:
+  stripPrefix:
+    forceSlash: false
+    prefixes:
+    - /backend
